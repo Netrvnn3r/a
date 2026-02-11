@@ -1,0 +1,26 @@
+{
+    "name": "hauyon-selenium-bdd",
+    "version": "1.0.0",
+    "description": "Selenium Cucumber BDD Framework",
+    "main": "index.js",
+    "scripts": {
+        "test": "cucumber-js",
+        "test:wip": "cucumber-js --tags @WIP",
+        "test:headless": "set HEADLESS=true && cucumber-js"
+    },
+    "keywords": [
+        "selenium",
+        "cucumber",
+        "bdd",
+        "javascript"
+    ],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "@cucumber/cucumber": "^10.3.1",
+        "axios": "^1.13.5",
+        "chai": "^4.3.10",
+        "dotenv": "^16.4.1",
+        "selenium-webdriver": "^4.17.0"
+    }
+}
