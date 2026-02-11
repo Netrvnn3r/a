@@ -1,0 +1,116 @@
+{
+  "info": {
+    "_postman_id": "d19e3120-254c-43f3-956b-73b091d944dd",
+    "name": "My Collection",
+    "description": "### Welcome to Postman! This is your first collection. \n\nCollections are your starting point for building and testing APIs. You can use this one to:\n\n• Group related requests\n• Test your API in real-world scenarios\n• Document and share your requests\n\nUpdate the name and overview whenever you’re ready to make it yours.\n\n[Learn more about Postman Collections.](https://learning.postman.com/docs/collections/collections-overview/)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "52311631",
+    "_collection_link": "https://go.postman.co/collection/52311631-d19e3120-254c-43f3-956b-73b091d944dd?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "https://jsonplaceholder.typicode.com/posts/",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "\r",
+              "pm.test(\"Validate title and body content\", function () {\r",
+              "    const responseData = pm.response.json();\r",
+              "    \r",
+              "    responseData.forEach((post) => {\r",
+              "        \r",
+              "        pm.expect(post.title).to.be.a('string').and.not.empty;\r",
+              "        pm.expect(post.body).to.be.a('string').and.not.empty;\r",
+              "        \r",
+              "        \r",
+              "        pm.expect(post.title).to.not.include('zombie');\r",
+              "        pm.expect(post.body).to.not.include('zombie');\r",
+              "    });\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://jsonplaceholder.typicode.com/posts/",
+          "protocol": "https",
+          "host": [
+            "jsonplaceholder",
+            "typicode",
+            "com"
+          ],
+          "path": [
+            "posts",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "https://httpbin.org/post",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200 or 201\", function () {\r",
+              "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);\r",
+              "});\r",
+              "\r",
+              "\r",
+              "pm.test(\"Validate toppings list\", function () {\r",
+              "    const responseData = pm.response.json();\r",
+              "    const toppings = responseData.json.topping;\r",
+              "\r",
+              "    pm.expect(toppings).to.include.members([\"bacon\", \"cheese\", \"mushroom\"]);\r",
+              "    \r",
+              "    pm.expect(toppings).to.not.include(\"chicken\");\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"student\": \"Tim Allen\",\r\n  \"email_address\": \"tim@homeimprovement.com\",\r\n  \"phone\": \"(408) 8674530\",\r\n  \"current_grade\": \"B+\",\r\n  \"topping\": [\"bacon\", \"cheese\", \"mushroom\"]\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://httpbin.org/post",
+          "protocol": "https",
+          "host": [
+            "httpbin",
+            "org"
+          ],
+          "path": [
+            "post"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
