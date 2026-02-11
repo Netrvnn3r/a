@@ -74,7 +74,12 @@ class RiaChallengePage {
         await this.driver.wait(until.elementIsVisible(searchInput), 10000);
         await this.driver.sleep(500);
 
-        await searchInput.sendKeys(country);
+        await searchInput.click();
+        await searchInput.clear();
+        for (const char of country) {
+            await searchInput.sendKeys(char);
+            await this.driver.sleep(150); // Small delay to mimic human typing for CI stability
+        }
         await this.driver.sleep(1000); // Give the UI a moment to filter results
 
         const countryOptionLocator = By.xpath(`//button[@role='option'][contains(., '${country}')]`);

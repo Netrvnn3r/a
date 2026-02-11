@@ -38,6 +38,7 @@ Before(async function (scenario) {
     options.addArguments('--disable-gpu');
     options.addArguments('--no-sandbox');
     options.addArguments('--start-maximized');
+    options.addArguments('--window-size=1920,1080'); // Force resolution for Headless
 
     this.driver = await new Builder()
         .forBrowser('chrome')
