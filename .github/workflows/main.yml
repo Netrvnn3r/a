@@ -1,0 +1,50 @@
+name: Hybrid Automation CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch: # Allows manual trigger
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Set up Node.js
+      uses: actions/checkout@v4
+      with:
+        node-version: '20'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Setup Chrome
+      uses: browser-actions/setup-chrome@latest
+      with:
+        chrome-version: stable
+
+    - name: Setup ChromeDriver
+      uses: nanasess/setup-chromedriver@master
+
+    - name: Start Xvfb (Virtual Screen for Linux)
+      run: |
+        export DISPLAY=:99
+        Xvfb :99 -screen 0 1920x1080x24 > /dev/null 2>&1 &
+
+    - name: Run All Tests (Headless)
+      env:
+        BASE_URL: https://www.riamoneytransfer.com/en-cl/
+        HEADLESS: "true"
+      run: npm run test:headless
+
+    - name: Upload Test Report
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: cucumber-report
+        path: reports/

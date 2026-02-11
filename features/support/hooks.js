@@ -14,14 +14,21 @@ Before(async function (scenario) {
         return; // Skip browser initialization for API tests
     }
 
-    // Correct path to chromedriver based on user's structure
-    const chromeDriverPath = path.join(process.cwd(), 'drivers', 'chromedriver-win64', 'chromedriver-win64', 'chromedriver.exe');
-    const service = new chrome.ServiceBuilder(chromeDriverPath);
+    // Dynamic path resolution for Local vs CI
+    const localChromeDriver = path.join(process.cwd(), 'drivers', 'chromedriver-win64', 'chromedriver-win64', 'chromedriver.exe');
+    const localChromeBinary = path.join(process.cwd(), 'drivers', 'chrome-win64', 'chrome.exe');
 
+    const fs = require('fs');
+    let service;
     const options = new chrome.Options();
 
-    // Set the path to the Chrome Binary
-    options.setChromeBinaryPath(path.join(process.cwd(), 'drivers', 'chrome-win64', 'chrome.exe'));
+    if (fs.existsSync(localChromeDriver)) {
+        service = new chrome.ServiceBuilder(localChromeDriver);
+    }
+
+    if (fs.existsSync(localChromeBinary)) {
+        options.setChromeBinaryPath(localChromeBinary);
+    }
 
     // Check for Headless mode
     if (process.env.HEADLESS === 'true') {
